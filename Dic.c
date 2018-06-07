@@ -52,55 +52,77 @@ TrieNode* createNode(char character){
 
 //Insert function Start----
 void insertWord(char * word){
-    // int Current_letter =0;
-    // char temp_character=word[Current_letter];
-    // TrieNode* temp_root= root; // to point root 
-    // TrieNode* temp_child = root->child ; // to point temp root child
-    // while(word[Current_letter]!='\0'){
-    //     while(temp_child!=NULL){
-    //        char node_char=temp_child->data;
-    //        if(temp_character==node_char){
-    //            printf("have same -> %c \n " ,word[Current_letter]);
-    //            Current_letter++;
-    //            temp_character=word[Current_letter];
-    //            if(temp_character=='\0')
-    //                 break;
-    //            temp_root=temp_child;
-    //            temp_child=temp_child->child;
-    //        } 
-    //         temp_child;
-    //     }
-    //     if(temp_child==NULL){
-    //         temp_child=temp_root->child; 
-    //         int length = (temp_root->length);
-    //         TrieNode* child_List_point = (TrieNode*)malloc(sizeof(TrieNode)*(length+1));
-    //         TrieNode* child_List=child_List_point;
-    //         for(int k=0; k<length;k++){
-    //             child_List->data = temp_child->data;
-    //             child_List->length=(temp_child->length)+1;
-    //             child_List->parent=temp_root;
-    //             child_List->child=temp_child->child;
-    //             child_List++;
-    //             temp_child++;
-    //         }
-    //         printf("add -> %c \n " ,word[Current_letter]);
-    //         child_List= createNode(word[Current_letter]);
-    //         child_List->parent=temp_root;
-    //         child_List->length = 0;
-    //         child_List->child = NULL;
-    //         temp_root->child=child_List_point;
-    //         temp_root=child_List;
-    //         temp_child= temp_root->child;
-    //         Current_letter++;
-    //     }
-            
-            while(*word !='\0'){
-                    printf("%c",*word++);
-            }
-            printf("\n");
+    int Current_letter =0;
+    char temp_character=word[Current_letter];
+    TrieNode* temp_root= root; // to point root 
+    TrieNode* temp_child = root->child ; // to point temp root child
+    while(word[Current_letter]!='\0'){
+        int i=0, length = temp_root->length;
+
         
+        
+        
+        //printf("%d\n",i);
+        while(i<length){
+           char node_char=temp_child->data;
+           if(temp_character==node_char){
+               printf("have same -> %c \n " ,word[Current_letter]);
+               Current_letter++;
+               temp_character=word[Current_letter];
+               if(temp_character=='\0')
+                    break;
+               temp_root=temp_child;
+               temp_child=temp_root->child;
+               i = 0; length = temp_root->length;
+           } 
+            temp_child++;
+            i++;
+        }
+        if (i>=length)
+        {
+            temp_child=temp_root->child; 
+            int length = (temp_root->length);
+            TrieNode* child_List_point = (TrieNode*)malloc(sizeof(TrieNode)*(length+1));
+            TrieNode* child_List=child_List_point;
+            for(int k=0; k<length;k++){
+                child_List->data = temp_child->data;
+                child_List->length=(temp_child->length)+1;
+                child_List->parent=temp_root;
+                child_List->child=temp_child->child;
+                child_List++;
+                temp_child++;
+            }
+            printf("add -> %c \n " ,word[Current_letter]);
+            child_List= createNode(word[Current_letter]);
+            child_List->parent=temp_root;
+            child_List->length = 0;
+            child_List->child = NULL;
+            temp_root->child=child_List_point;
+            temp_root=child_List;
+            temp_child= temp_root->child;
+            Current_letter++;
+        }
+    }
+//-------------
+    // TrieNode * tmp_root = root;
+    // TrieNode * tmp_child = root->child;
+    // printf("%p %p", tmp_root, root);
+    // while (*word != '\0'){ // check end charactor
+    //     while(){
+    //         if(!tmp_child)
+    //             break;
             
-    // }   
+    //         tmp_child++;
+    //     }
+    //     TrieNode *New_Node = createNode(*word);
+    //     int length =tmp_root->length;
+    //     TrieNode* List = (TrieNode*)malloc(sizeof(TrieNode)*length+2);
+        
+        
+    //     word++;
+    // }
+    // printf("\n");
+    // // }   
 
 }// End Insert function----
 
@@ -111,7 +133,7 @@ int main(int argc, char const *argv[])
    root = createNode('r');
     //test_CreateNode();
     insertWord("kalana");
-    insertWord("kalaba");
+    insertWord("kalana");
     //read  file 
         //    int c;
         //    FILE *file;
