@@ -3,11 +3,11 @@ Rathnayake R.M.K.D
 University of Peradeniya 
 E 14 287
 
-Radix Tree (Trie) Structure for Text Auto-complete
+Trie Tree  Structure for Text Auto-complete
 
 INTRUDUCTION :
 
- Radix Trees or Tries are data structures that provide fast data retrieval,
+ Tries are data structures that provide fast data retrieval,
  at the cost of high space consumption. Typically, data values are associated 
  with edges rather than with nodes in Tries, although this may depend on implementation. 
  In this lab you will be implementing a Trie data structure in C to store a dictionary of 
