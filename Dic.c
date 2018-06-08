@@ -1,6 +1,7 @@
 /*
 Rathnayake R.M.K.D 
 University of Peradeniya 
+E 14 287
 
 Radix Tree (Trie) Structure for Text Auto-complete
 
@@ -13,16 +14,16 @@ INTRUDUCTION :
  English words, and use it to quickly retrieve words for an text auto-complete application.
 */
 
+// include library
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
 
 typedef struct trienode TrieNode;
 TrieNode* createNode(char character);
 TrieNode *root ;
 char *sample_word;
-void Preorder(TrieNode * root_Nodes, TrieNode *Start_Node);
+void FindLeaf(TrieNode * root_Nodes, TrieNode *Start_Node);
 //test Function
 void test_CreateNode();
 // end test function 
@@ -40,7 +41,6 @@ typedef struct trienode{
     int length;
 }TrieNode;// node stract end ------
 
-
 //Create function start-----
 TrieNode* createNode(char character){
     //create new node 
@@ -51,7 +51,6 @@ TrieNode* createNode(char character){
     for(int i=0;i<26;i++){
         NewNode->child[i]=NULL;
     }
-    
     return NewNode;
 }//create function end----
 
@@ -63,7 +62,7 @@ void insertWord(char * word){
     while (*word != '\0'){ // check end charactor
         int index =(int)tolower(*word)- (int)'a';
         if(tmp_child[index] == NULL){
-           // printf("add %c\n", *word);
+            // letter not in the tmp child 
            tmp_child[index]=createNode(*word);
            tmp_root->isLeaf=0;
            tmp_child[index]->parent=tmp_root;
@@ -72,7 +71,7 @@ void insertWord(char * word){
            word ++;
         }
         else{
-           // printf("Have same  %c\n", *word);
+            // same letter has tree tmp child 
             tmp_root = tmp_child[index];
             tmp_child = tmp_root->child;
             word++;
@@ -91,7 +90,7 @@ void printSuggestions( char * word  ){
     { // check end charactor
         int index = (int)tolower(*word) - (int)'a';
         if (tmp_child[index] == NULL){
-            printf("have No suggestions\n");
+            printf("No Suggestions for Your Input \n");
             break;
         }
         tmp_root = tmp_child[index];
@@ -105,6 +104,8 @@ void printSuggestions( char * word  ){
     }
     
 }//end print Suggesion 
+
+// print letter from Leaf_Node to startNode 
 void printWord( TrieNode *Start_Node, TrieNode *Leaf_Node)
 {
     char word[50]="";
@@ -121,6 +122,7 @@ void printWord( TrieNode *Start_Node, TrieNode *Leaf_Node)
     }
 }
 
+// find leaf node to print word function
 void FindLeaf(TrieNode * Nodes,TrieNode *  Start_Node){
     
     TrieNode **t_child = Nodes->child;
@@ -129,18 +131,20 @@ void FindLeaf(TrieNode * Nodes,TrieNode *  Start_Node){
             FindLeaf(t_child[i], Start_Node);
     }
     if(Nodes->isLeaf==1){
-        printf(" >  %s",sample_word);
+        printf("    >  %s",sample_word);
         printWord(Start_Node, Nodes);
         printf("\n");
     }
     
 }
+//end 
 
-int main(int argc, char const *argv[])
+//  main fuction ----------------------------------------------------
+int main(int argc, char *argv[])
 {
-//     //create root of tree 
-   root = createNode('r');
-    //read  file 
+    //create root of tree 
+    root = createNode('r');
+    //read  file  and add word to the tree 
            char word[51];
            FILE *file;
            file = fopen("Sample Word List.txt", "r");
@@ -165,19 +169,5 @@ int main(int argc, char const *argv[])
         
     return 0;
 }
-
-// test function for test each function used in the source code 
-
-void test_CreateNode(){
-    TrieNode* NewNode = createNode('k');
-    TrieNode* temp_child = createNode('t');
-    char c = NewNode->data;
-    // temp_child =NewNode->child;
-    // char tmp_data = temp_child->data;
-    char k = 'k';
-    if(c==k)
-        printf("%c",c);
-}
-
-// end test function;
+// end main function --------------------------------------------------
 
