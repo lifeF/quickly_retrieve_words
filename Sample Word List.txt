@@ -96,7 +96,7 @@ form
 found
 fourth
 free
-Friday
+friday
 friend
 front
 get
@@ -234,13 +234,13 @@ stick
 stood
 stop
 stove
-street
+Street
 strong
 study
 such
 sugar
 summer
-Sunday
+sunday
 supper
 table
 taken
@@ -294,4 +294,4 @@ write
 wrong
 yard
 year
-yesterday
+Yesterday
