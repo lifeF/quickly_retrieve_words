@@ -21,12 +21,10 @@ INTRUDUCTION :
 typedef struct trienode TrieNode;
 TrieNode* createNode(char character);
 TrieNode *root ;
-void Preorder(TrieNode *Nodes);
-
-    //tree Root create
-
-    //test Function
-    void test_CreateNode();
+char *sample_word;
+void Preorder(TrieNode * root_Nodes, TrieNode *Start_Node);
+//test Function
+void test_CreateNode();
 // end test function 
 
 // Node struct  start-----
@@ -36,8 +34,8 @@ typedef struct trienode{
     //  point to parent node
     TrieNode * parent ;
     // to point child node array
-    TrieNode* child[26];
-    
+    TrieNode * child[26];
+    int isLeaf;
     // to hold number of child
     int length;
 }TrieNode;// node stract end ------
@@ -49,6 +47,7 @@ TrieNode* createNode(char character){
     TrieNode* NewNode = (TrieNode*)malloc(sizeof(TrieNode));
     NewNode->data = character;
     NewNode->length=0;
+    NewNode->isLeaf= 1;
     for(int i=0;i<26;i++){
         NewNode->child[i]=NULL;
     }
@@ -66,6 +65,8 @@ void insertWord(char * word){
         if(tmp_child[index] == NULL){
            // printf("add %c\n", *word);
            tmp_child[index]=createNode(*word);
+           tmp_root->isLeaf=0;
+           tmp_child[index]->parent=tmp_root;
            tmp_root=tmp_child[index];
            tmp_child= tmp_root->child;
            word ++;
@@ -80,9 +81,9 @@ void insertWord(char * word){
     }
 }// End Insert function-----
 
-//print Sugession 
+//print Suggestion 
 void printSuggestions( char * word  ){
-    char * word_sample = word;
+    sample_word = word;
     TrieNode *tmp_root = root;
     TrieNode **tmp_child = root->child;
     int state=0;
@@ -98,36 +99,46 @@ void printSuggestions( char * word  ){
         word++;
             
         if (*word == '\0'){
-            for (int i = 0; i < 26; i++)
-            {
-                if (tmp_child[i] != NULL){
-                    printf("%s", word_sample);
-                    Preorder(tmp_root);
-                    printf("\n");
-        
-                }
-            }      
-            
-            
+            printf("Suggession for Your input  \'%s\'\n",sample_word);
+            FindLeaf(tmp_root, tmp_root);
         }   
     }
     
-}
-//end print sugession 
+}//end print Suggesion 
+void printWord( TrieNode *Start_Node, TrieNode *Leaf_Node)
+{
+    char word[50]="";
+    int i=0;
+    TrieNode * tmp_node = Leaf_Node;
+    while (tmp_node != Start_Node){
+        word[i] = tmp_node->data;
+        tmp_node = tmp_node->parent;
+        i++;
+    }
 
-void Preorder(TrieNode * Nodes){
-    printf("%c",Nodes->data);
+    for(int j = --i; j>=0;j--){
+        printf("%c", word[j]);
+    }
+}
+
+void FindLeaf(TrieNode * Nodes,TrieNode *  Start_Node){
+    
     TrieNode **t_child = Nodes->child;
     for(int i=0 ; i<26 ;i++){
         if (t_child[i]!=NULL)
-            Preorder(t_child[i]);
-           
+            FindLeaf(t_child[i], Start_Node);
     }
+    if(Nodes->isLeaf==1){
+        printf(" >  %s",sample_word);
+        printWord(Start_Node, Nodes);
+        printf("\n");
+    }
+    
 }
 
 int main(int argc, char const *argv[])
 {
-    //create root of tree 
+//     //create root of tree 
    root = createNode('r');
     //read  file 
            char word[51];
@@ -141,12 +152,19 @@ int main(int argc, char const *argv[])
             }
             else{
                 fprintf(stderr,"file connot read , or \" Sample Word List.txt\" file not exit ");
+                return 0;
             }
     //read file end
-    
+    if(argc>1){
+        char *word = argv[1];
+        printSuggestions(word);
+    } 
+    else{
+        fprintf(stderr, "Please input word \n \t Usage :  %s  <Your Word > \n ", argv[0]);
+    }
+        
     return 0;
 }
-
 
 // test function for test each function used in the source code 
 
