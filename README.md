@@ -8,7 +8,7 @@ Radix Trees or Tries are data structures that provide fast data retrieval, at th
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+What things you need to install
 
 ```
 c language 
@@ -17,7 +17,7 @@ c language
 
 ## Authors
 
-* **Kalana Dhanajaya ** 
+* Kalana Dhanajaya
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
